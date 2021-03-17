@@ -1,16 +1,14 @@
-import React from 'react';
-import {Stylesheet, View, Button, Text} from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View, Button, Text} from 'react-native';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'react';
+import {bindActionCreators} from 'redux';
 import * as pageActions from './actions/pageList';
 
 class App extends Component {
-
-incrementCount(){
-  let {actions} = this.props;
-  actions.getPageList();
-}
-
+  incrementCount() {
+    let {actions} = this.props;
+    actions.getPageList();
+  }
   render() {
     const {pageList} = this.props;
     console.log(pageList);
@@ -29,29 +27,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textCenter: {
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });
 
+const mapStateToProps = (state) => ({
+  pageList: state.pageList.pageList,
+});
 
-
-const mapStateToProps = state => {
-  pageList: state.pageList.pageList
-};
-
-const ActionCreators = Object.assign({}, pageActions
-);
-
-
-const mapDispatchToProps = dispatch => ({
+const ActionCreators = Object.assign({}, pageActions);
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
-
-
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(App);
