@@ -1,52 +1,57 @@
+import React from 'react';
+import {Stylesheet, View, Button, Text} from 'react-native';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'react';
+import * as pageActions from './actions/pageList';
 
+class App extends Component {
 
+incrementCount(){
+  let {actions} = this.props;
+  actions.getPageList();
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*import React from 'react';
-import {Text, Button, addons} from 'react-native';
-
-class Counter extends React.Component {
-  //maintain state here
-  state = {
-    counter: 0,
-  };
-
-  //render function
   render() {
-    const {counter} = this.state;
-    //view you want to render
+    const {pageList} = this.props;
+    console.log(pageList);
     return (
-      <View>
-        <Text>{counter}</Text>
-        <Button
-          onPress={() => {
-            this.setState(prevState =>({counter: prevState.counter + 1}));
-          }}
-          title="Increment"
-        />
-        <Button
-          onPress={() => {
-            this.setState(prevState => ({counter: prevState.counter - 1}));
-          }}
-          title="Decrement"
-        />
+      <View styles={styles.container}>
+        <Button title="Get Employee" onPress={() => this.incrementCount()} />
+        {pageList.map((employee) => (
+          <Text style={styles.textCenter}>{employee.employee_name}</Text>
+        ))}
       </View>
     );
   }
 }
-*/
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textCenter: {
+    textAlign: 'center'
+  }
+});
+
+
+
+const mapStateToProps = state => {
+  pageList: state.pageList.pageList
+};
+
+const ActionCreators = Object.assign({}, pageActions
+);
+
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+
+
+
